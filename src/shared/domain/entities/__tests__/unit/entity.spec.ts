@@ -8,7 +8,7 @@ type StubProps = {
 
 class StubEntity extends Entity<StubProps> {}
 
-describe('UserEntity unit tests', () => {
+describe('Entity unit tests', () => {
   it('should set props and id', () => {
     const props = {
       prop1: 'value1',
