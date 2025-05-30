@@ -17,26 +17,54 @@ describe('UserEntity unit tests', () => {
     expect(sut.props.createdAt).toBeInstanceOf(Date);
   });
 
-  it('should return name', () => {
+  it('should getter of name', () => {
     expect(sut.name).toBeDefined();
     expect(sut.name).toEqual(props.name);
     expect(typeof sut.name).toBe('string');
   });
 
-  it('should return created at', () => {
+  it('should getter created at', () => {
     expect(sut.createdAt).toBeDefined();
     expect(sut.createdAt).toBeInstanceOf(Date);
   });
 
-  it('should return email', () => {
+  it('should getter email', () => {
     expect(sut.email).toBeDefined();
     expect(sut.email).toEqual(props.email);
     expect(typeof sut.email).toBe('string');
   });
 
-  it('should return password', () => {
+  it('should getter password', () => {
     expect(sut.password).toBeDefined();
     expect(sut.password).toEqual(props.password);
     expect(typeof sut.password).toBe('string');
+  });
+
+  it('should setter name', () => {
+    const newName = 'other name';
+    sut['name'] = newName;
+    expect(sut.name).toEqual(newName);
+    expect(typeof sut.name).toBe('string');
+  });
+
+  it('should setter password', () => {
+    const newPassword = 'otherPassword';
+    sut['password'] = newPassword;
+    expect(sut.password).toEqual(newPassword);
+    expect(typeof sut.name).toBe('string');
+  });
+
+  it('should update name', () => {
+    const newName = 'other name';
+    sut.updateName(newName);
+    expect(sut.name).toEqual(newName);
+    expect(typeof sut.name).toBe('string');
+  });
+
+  it('should update password', () => {
+    const newPassword = 'otherpassword';
+    sut.updatePassword(newPassword);
+    expect(sut.password).toEqual(newPassword);
+    expect(typeof sut.password).toEqual('string');
   });
 });
