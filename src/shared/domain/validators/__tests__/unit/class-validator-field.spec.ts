@@ -1,13 +1,15 @@
 import { ClassValidatorFields } from '../../class-validator-fields';
 import * as libClassValidator from 'class-validator';
 
-class StubEntity extends ClassValidatorFields<{ field: string }> {}
+class StubClassValidatorFields extends ClassValidatorFields<{
+  field: string;
+}> {}
 
-describe('UserEntity unit tests', () => {
-  let sut: StubEntity;
+describe('ClassValidatorFields unit tests', () => {
+  let sut: StubClassValidatorFields;
 
   beforeEach(() => {
-    sut = new StubEntity();
+    sut = new StubClassValidatorFields();
   });
 
   it('should errors to be null', () => {
