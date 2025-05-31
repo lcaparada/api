@@ -7,6 +7,10 @@ export abstract class InMemoryRepository<E extends Entity>
 {
   items: E[] = [];
 
+  async insert(entity: E): Promise<void> {
+    this.items.push(entity);
+  }
+
   async update(entity: E): Promise<void> {
     await this._get(entity.id);
     const index = this.items.findIndex((item) => item.id === entity.id);
@@ -24,10 +28,6 @@ export abstract class InMemoryRepository<E extends Entity>
   async delete(id: string): Promise<void> {
     await this._get(id);
     this.items.filter((item) => item.id === id);
-  }
-
-  async insert(entity: E): Promise<void> {
-    this.items.push(entity);
   }
 
   protected async _get(id: string) {
