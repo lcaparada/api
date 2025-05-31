@@ -117,4 +117,43 @@ describe('UserEntity integration test', () => {
       expect(() => new UserEntity(props)).toThrow(EntityValidationError);
     });
   });
+
+  describe('Update method', () => {
+    let entity: UserEntity;
+    beforeEach(() => {
+      const props: UserProps = {
+        ...userDataBuilder({}),
+      };
+      entity = new UserEntity(props);
+    });
+    it('should throw an error when update user name with invalid data', () => {
+      expect(() => entity.updateName('')).toThrow(EntityValidationError);
+      expect(() => entity.updateName(10 as any)).toThrow(EntityValidationError);
+      expect(() => entity.updateName('a'.repeat(256))).toThrow(
+        EntityValidationError,
+      );
+    });
+
+    it('should throw an error when update user password with invalid data', () => {
+      expect(() => entity.updatePassword('')).toThrow(EntityValidationError);
+      expect(() => entity.updatePassword(10 as any)).toThrow(
+        EntityValidationError,
+      );
+      expect(() => entity.updatePassword('a'.repeat(101))).toThrow(
+        EntityValidationError,
+      );
+    });
+
+    it('should update password', () => {
+      expect(() => entity.updatePassword('123')).not.toThrow(
+        EntityValidationError,
+      );
+    });
+
+    it('should update name', () => {
+      expect(() => entity.updateName('John')).not.toThrow(
+        EntityValidationError,
+      );
+    });
+  });
 });
