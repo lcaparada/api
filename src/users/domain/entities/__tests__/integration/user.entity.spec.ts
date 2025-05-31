@@ -4,7 +4,7 @@ import { UserEntity, UserProps } from '../../user.entity';
 
 describe('UserEntity integration test', () => {
   describe('Constructor method', () => {
-    it('should throw an error when creating with a user invalid name', () => {
+    it('should throw an error when creating a user with invalid name', () => {
       let props: UserProps = {
         ...userDataBuilder({}),
         name: null,
@@ -22,29 +22,73 @@ describe('UserEntity integration test', () => {
       props = {
         ...userDataBuilder({}),
         name: 'a'.repeat(256),
+      };
+
+      expect(() => new UserEntity(props)).toThrow(EntityValidationError);
+
+      props = {
+        ...userDataBuilder({}),
+        name: 10 as any,
       };
 
       expect(() => new UserEntity(props)).toThrow(EntityValidationError);
     });
 
-    it('should throw an error when creating with a user invalid name', () => {
+    it('should throw an error when creating with user with invalid password', () => {
       let props: UserProps = {
         ...userDataBuilder({}),
-        name: null,
+        password: null,
       };
 
       expect(() => new UserEntity(props)).toThrow(EntityValidationError);
 
       props = {
         ...userDataBuilder({}),
-        name: '',
+        password: '',
       };
 
       expect(() => new UserEntity(props)).toThrow(EntityValidationError);
 
       props = {
         ...userDataBuilder({}),
-        name: 'a'.repeat(256),
+        password: 'a'.repeat(256),
+      };
+
+      expect(() => new UserEntity(props)).toThrow(EntityValidationError);
+
+      props = {
+        ...userDataBuilder({}),
+        password: 10 as any,
+      };
+
+      expect(() => new UserEntity(props)).toThrow(EntityValidationError);
+    });
+
+    it('should throw an error when creating with user with invalid email', () => {
+      let props: UserProps = {
+        ...userDataBuilder({}),
+        email: null,
+      };
+
+      expect(() => new UserEntity(props)).toThrow(EntityValidationError);
+
+      props = {
+        ...userDataBuilder({}),
+        email: '',
+      };
+
+      expect(() => new UserEntity(props)).toThrow(EntityValidationError);
+
+      props = {
+        ...userDataBuilder({}),
+        email: 'a'.repeat(256),
+      };
+
+      expect(() => new UserEntity(props)).toThrow(EntityValidationError);
+
+      props = {
+        ...userDataBuilder({}),
+        email: 10 as any,
       };
 
       expect(() => new UserEntity(props)).toThrow(EntityValidationError);
