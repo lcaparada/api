@@ -30,7 +30,7 @@ export abstract class InMemoryRepository<E extends Entity>
     this.items.push(entity);
   }
 
-  protected _get(id: string) {
+  protected async _get(id: string) {
     const _id = `${id}`;
     const entity = this.items.find((item) => item.id === _id);
 
