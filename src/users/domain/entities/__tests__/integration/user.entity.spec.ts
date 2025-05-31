@@ -4,6 +4,13 @@ import { UserEntity, UserProps } from '../../user.entity';
 
 describe('UserEntity integration test', () => {
   describe('Constructor method', () => {
+    it('should a valid user', () => {
+      const props: UserProps = {
+        ...userDataBuilder({}),
+      };
+
+      expect(() => new UserEntity(props)).not.toThrow(EntityValidationError);
+    });
     it('should throw an error when creating a user with invalid name', () => {
       let props: UserProps = {
         ...userDataBuilder({}),
