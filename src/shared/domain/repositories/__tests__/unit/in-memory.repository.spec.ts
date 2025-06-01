@@ -17,11 +17,13 @@ describe('InMemoryRepository unit tests', () => {
     sut = new StubInMemoryRepository();
   });
 
-  it('Should inserts a new entity', async () => {
-    const entity = new StubEntity({ name: 'other name', price: 10 });
+  describe('Insert', () => {
+    it('Should inserts a new entity', async () => {
+      const entity = new StubEntity({ name: 'other name', price: 10 });
 
-    await sut.insert(entity);
-    expect(entity.toJSON()).toStrictEqual(sut.items[0].toJSON());
+      await sut.insert(entity);
+      expect(entity.toJSON()).toStrictEqual(sut.items[0].toJSON());
+    });
   });
 
   describe('FindById', () => {
@@ -78,6 +80,22 @@ describe('InMemoryRepository unit tests', () => {
       await sut.update(updateEntity);
 
       expect(updateEntity.toJSON()).toStrictEqual(sut.items[0].toJSON());
+    });
+  });
+
+  describe('Delete', () => {
+    it('Should throw error when entity not found', async () => {
+      await expect(sut.delete('fake id')).rejects.toThrow(
+        new NotFoundError('Entity not found'),
+      );
+    });
+
+    it('Should delete an entity', async () => {
+      const entity = new StubEntity({ name: 'other name', price: 10 });
+      await sut.insert(entity);
+      await sut.delete(entity.id);
+
+      expect(sut.items).toHaveLength(0);
     });
   });
 });
