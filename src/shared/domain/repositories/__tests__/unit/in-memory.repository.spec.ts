@@ -1,4 +1,4 @@
-import { NotFoundError } from '../../../../../shared/domain/errors/not-found-error';
+import { NotFoundError } from '../../../errors/not-found.error';
 import { Entity } from '../../../../../shared/domain/entities/entity';
 import { InMemoryRepository } from '../../in-memory.repository';
 
