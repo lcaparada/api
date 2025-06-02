@@ -85,7 +85,8 @@ export class SearchParams {
       this._sortDir = null;
       return;
     }
-    this._sortDir = value !== 'asc' && value !== 'desc' ? 'desc' : value;
+    const dir = `${value}`.toLowerCase();
+    this._sortDir = dir !== 'asc' && dir !== 'desc' ? 'desc' : dir;
   }
 }
 

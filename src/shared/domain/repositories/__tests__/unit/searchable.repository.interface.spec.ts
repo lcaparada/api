@@ -52,5 +52,61 @@ describe('SearchableRepositoryInterface unit test', () => {
         ).toEqual(param.expected),
       );
     });
+
+    it('Sort prop', () => {
+      const params = [
+        { value: '', expected: null },
+        { value: undefined, expected: null },
+        { value: null, expected: null },
+        { value: 'name', expected: 'name' },
+      ];
+
+      params.forEach((param) =>
+        expect(new SearchParams({ sort: param.value }).sort).toEqual(
+          param.expected,
+        ),
+      );
+    });
+
+    it('SortDir prop', () => {
+      expect(new SearchParams({ sortDir: 'asc' }).sortDir).toBeNull();
+
+      const params = [
+        { sortValue: '', sortDirValue: null, expectedSortDir: null },
+        { sortValue: '', sortDirValue: null, expectedSortDir: null },
+        { sortValue: 'field', sortDirValue: null, expectedSortDir: 'desc' },
+        { sortValue: 'field', sortDirValue: 'ASC', expectedSortDir: 'asc' },
+        { sortValue: 'field', sortDirValue: 'DESC', expectedSortDir: 'desc' },
+        { sortValue: undefined, sortDirValue: 'asc', expectedSortDir: null },
+        { sortValue: null, sortDirValue: null, expectedSortDir: null },
+        { sortValue: 'name', sortDirValue: 'asc', expectedSortDir: 'asc' },
+        { sortValue: '25', sortDirValue: 'desc', expectedSortDir: 'desc' },
+        { sortValue: '-1', sortDirValue: 'asc', expectedSortDir: 'asc' },
+      ];
+
+      params.forEach((param) =>
+        expect(
+          new SearchParams({
+            sort: param.sortValue,
+            sortDir: param.sortDirValue as any,
+          }).sortDir,
+        ).toEqual(param.expectedSortDir),
+      );
+    });
+
+    it('Filter prop', () => {
+      const params = [
+        { value: '', expected: null },
+        { value: undefined, expected: null },
+        { value: null, expected: null },
+        { value: 'name', expected: 'name' },
+      ];
+
+      params.forEach((param) =>
+        expect(new SearchParams({ filter: param.value }).filter).toEqual(
+          param.expected,
+        ),
+      );
+    });
   });
 });
