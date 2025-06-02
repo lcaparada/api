@@ -30,31 +30,55 @@ export class SearchParams {
     return this._page;
   }
 
-  private set page(value: number) {}
+  private set page(value: number) {
+    let _page = +value;
+    if (Number.isNaN(_page) || _page <= 0) {
+      _page = 1;
+    }
+    this._page = _page;
+  }
 
   get perPage() {
     return this._perPage;
   }
 
-  private set perPage(value: number) {}
+  private set perPage(value: number) {
+    let _perPage = +value;
+    if (Number.isNaN(_perPage) || _perPage <= 0) {
+      _perPage = 15;
+    }
+    this._perPage = _perPage;
+  }
 
   get sort() {
     return this._sort;
   }
 
-  private set sort(value: string | null) {}
+  private set sort(value: string | null) {
+    this.sort =
+      value === null || value === undefined || value === '' ? null : `${value}`;
+  }
 
   get filter() {
     return this._filter;
   }
 
-  private set filter(value: string | null) {}
+  private set filter(value: string | null) {
+    this.filter =
+      value === null || value === undefined || value === '' ? null : `${value}`;
+  }
 
   get sortDir() {
     return this._sortDir;
   }
 
-  private set sortDir(value: SortDirection | null) {}
+  private set sortDir(value: SortDirection | null) {
+    if (!this.sort) {
+      this._sortDir = null;
+      return;
+    }
+    this._sortDir = value !== 'asc' && value !== 'desc' ? 'desc' : value;
+  }
 }
 
 export interface SearchableRepositoryInterface<
