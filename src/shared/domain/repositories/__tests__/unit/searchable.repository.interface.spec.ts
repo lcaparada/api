@@ -1,7 +1,10 @@
-import { SearchParams } from '../../searchable.repository.interface';
+import {
+  SearchParams,
+  SearchResult,
+} from '../../searchable.repository.interface';
 
 describe('SearchableRepositoryInterface unit test', () => {
-  describe('SearchParams', () => {
+  describe('SearchParams tests', () => {
     it('Page prop', () => {
       const sut = new SearchParams({});
 
@@ -107,6 +110,76 @@ describe('SearchableRepositoryInterface unit test', () => {
           param.expected,
         ),
       );
+    });
+  });
+
+  describe('SearchResult tests', () => {
+    it('constructor props', () => {
+      let sut = new SearchResult({
+        items: ['test1', 'test2'] as any,
+        total: 4,
+        perPage: 2,
+        currentPage: 1,
+        filter: null,
+        sort: null,
+        sortDir: null,
+      });
+
+      expect(sut.toJSON()).toStrictEqual({
+        items: ['test1', 'test2'] as any,
+        total: 4,
+        perPage: 2,
+        currentPage: 1,
+        filter: null,
+        sort: null,
+        lastPage: 2,
+        sortDir: null,
+      });
+
+      sut = new SearchResult({
+        items: ['test1', 'test2'] as any,
+        total: 4,
+        perPage: 2,
+        currentPage: 1,
+        filter: 'test',
+        sort: 'name',
+        sortDir: 'asc',
+      });
+
+      expect(sut.toJSON()).toStrictEqual({
+        items: ['test1', 'test2'] as any,
+        total: 4,
+        perPage: 2,
+        currentPage: 1,
+        filter: 'test',
+        sort: 'name',
+        lastPage: 2,
+        sortDir: 'asc',
+      });
+
+      sut = new SearchResult({
+        items: ['test1', 'test2'] as any,
+        total: 4,
+        perPage: 10,
+        currentPage: 1,
+        filter: 'test',
+        sort: 'name',
+        sortDir: 'asc',
+      });
+
+      expect(sut.lastPage).toBe(1);
+
+      sut = new SearchResult({
+        items: ['test1', 'test2'] as any,
+        total: 54,
+        perPage: 10,
+        currentPage: 1,
+        filter: 'test',
+        sort: 'name',
+        sortDir: 'asc',
+      });
+
+      expect(sut.lastPage).toBe(6);
     });
   });
 });
