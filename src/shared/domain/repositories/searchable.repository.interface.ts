@@ -19,11 +19,11 @@ export class SearchParams {
   protected _filter: string | null;
 
   constructor(props: SearchProps) {
-    this._perPage = props.perPage;
-    this._page = props.page;
-    this._sort = props.sort;
-    this._sortDir = props.sortDir;
-    this._filter = props.filter;
+    this.perPage = props.perPage;
+    this.page = props.page;
+    this.sort = props.sort;
+    this.sortDir = props.sortDir;
+    this.filter = props.filter;
   }
 
   get page() {
@@ -32,7 +32,11 @@ export class SearchParams {
 
   private set page(value: number) {
     let _page = +value;
-    if (Number.isNaN(_page) || _page <= 0) {
+    if (
+      Number.isNaN(_page) ||
+      _page <= 0 ||
+      parseInt(value as unknown as string) !== _page
+    ) {
       _page = 1;
     }
     this._page = _page;
@@ -44,7 +48,11 @@ export class SearchParams {
 
   private set perPage(value: number) {
     let _perPage = +value;
-    if (Number.isNaN(_perPage) || _perPage <= 0) {
+    if (
+      Number.isNaN(_perPage) ||
+      _perPage <= 0 ||
+      parseInt(value as unknown as string) !== _perPage
+    ) {
       _perPage = 15;
     }
     this._perPage = _perPage;
@@ -55,7 +63,7 @@ export class SearchParams {
   }
 
   private set sort(value: string | null) {
-    this.sort =
+    this._sort =
       value === null || value === undefined || value === '' ? null : `${value}`;
   }
 
@@ -64,7 +72,7 @@ export class SearchParams {
   }
 
   private set filter(value: string | null) {
-    this.filter =
+    this._filter =
       value === null || value === undefined || value === '' ? null : `${value}`;
   }
 
