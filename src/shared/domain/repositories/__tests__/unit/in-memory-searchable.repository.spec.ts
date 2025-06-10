@@ -1,5 +1,9 @@
 import { Entity } from '../../../../../shared/domain/entities/entity';
 import { InMemorySearchableRepository } from '../../in-memory-searchable.repository';
+import {
+  SearchParams,
+  SearchResult,
+} from '../../searchable.repository.interface';
 
 interface StubEntityProps {
   name: string;
@@ -121,6 +125,72 @@ describe('InMemorySearchableRepository unit tests', () => {
       paginatedItems = await sut['applyPaginate'](items, 4, 2);
 
       expect(paginatedItems).toHaveLength(0);
+    });
+  });
+
+  describe('Search method', () => {
+    it('should apply only pagination parameter when other params are null', async () => {
+      const entity = new StubEntity({ name: 'test', price: 10 });
+      const items: StubEntity[] = Array(16).fill(entity);
+
+      sut.items = items;
+
+      const params = await sut.search(new SearchParams({}));
+
+      expect(params).toStrictEqual(
+        new SearchResult({
+          items: Array(15).fill(entity),
+          total: 16,
+          currentPage: 1,
+          sort: null,
+          filter: null,
+          perPage: 15,
+          sortDir: null,
+        }),
+      );
+    });
+
+    it('should apply paginate and filter parameters', async () => {
+      const items = [
+        new StubEntity({ name: 'test', price: 10 }),
+        new StubEntity({ name: 'a', price: 20 }),
+        new StubEntity({ name: 'TEST', price: 30 }),
+        new StubEntity({ name: 'TeSt', price: 40 }),
+      ];
+
+      sut.items = items;
+
+      let params = await sut.search(
+        new SearchParams({ page: 1, perPage: 2, filter: 'TEST' }),
+      );
+
+      expect(params).toStrictEqual(
+        new SearchResult({
+          items: [items[0], items[2]],
+          total: 3,
+          currentPage: 1,
+          sort: null,
+          filter: 'TEST',
+          perPage: 2,
+          sortDir: null,
+        }),
+      );
+
+      params = await sut.search(
+        new SearchParams({ page: 2, perPage: 2, filter: 'TEST' }),
+      );
+
+      expect(params).toStrictEqual(
+        new SearchResult({
+          items: [items[3]],
+          total: 3,
+          currentPage: 2,
+          sort: null,
+          filter: 'TEST',
+          perPage: 2,
+          sortDir: null,
+        }),
+      );
     });
   });
 });
