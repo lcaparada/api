@@ -65,4 +65,37 @@ describe('InMemorySearchableRepository unit tests', () => {
       expect(spyFilterMethod).toHaveBeenCalledTimes(4);
     });
   });
+
+  describe('ApplySort method', () => {
+    it('should return all items if sort param is null', async () => {
+      const items = [new StubEntity({ name: 'a', price: 10 })];
+      const spyItemsSortMethod = jest.spyOn(items, 'sort');
+      const sortedItems = await sut['applySort'](items, null, null);
+
+      expect(items).toStrictEqual(sortedItems);
+      expect(spyItemsSortMethod).not.toHaveBeenCalled();
+    });
+
+    it(`should all items if sortableFields doesn't includes sort`, async () => {
+      const items = [new StubEntity({ name: 'a', price: 10 })];
+
+      const sortedItems = await sut['applySort'](items, 'price', 'asc');
+
+      expect(items).toStrictEqual(sortedItems);
+    });
+
+    it(`should sort items`, async () => {
+      const items = [
+        new StubEntity({ name: 'b', price: 10 }),
+        new StubEntity({ name: 'a', price: 10 }),
+        new StubEntity({ name: 'c', price: 10 }),
+      ];
+
+      let sortedItems = await sut['applySort'](items, 'name', 'asc');
+      expect(sortedItems).toStrictEqual([items[1], items[0], items[2]]);
+
+      sortedItems = await sut['applySort'](items, 'name', 'desc');
+      expect(sortedItems).toStrictEqual([items[2], items[0], items[1]]);
+    });
+  });
 });
