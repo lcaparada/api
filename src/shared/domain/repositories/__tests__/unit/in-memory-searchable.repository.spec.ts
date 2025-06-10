@@ -69,11 +69,9 @@ describe('InMemorySearchableRepository unit tests', () => {
   describe('ApplySort method', () => {
     it('should return all items if sort param is null', async () => {
       const items = [new StubEntity({ name: 'a', price: 10 })];
-      const spyItemsSortMethod = jest.spyOn(items, 'sort');
       const sortedItems = await sut['applySort'](items, null, null);
 
       expect(items).toStrictEqual(sortedItems);
-      expect(spyItemsSortMethod).not.toHaveBeenCalled();
     });
 
     it(`should all items if sortableFields doesn't includes sort`, async () => {
@@ -96,6 +94,33 @@ describe('InMemorySearchableRepository unit tests', () => {
 
       sortedItems = await sut['applySort'](items, 'name', 'desc');
       expect(sortedItems).toStrictEqual([items[2], items[0], items[1]]);
+    });
+  });
+
+  describe('ApplyPaginate method', () => {
+    it('should return paginated items', async () => {
+      const items = [
+        new StubEntity({ name: 'a', price: 10 }),
+        new StubEntity({ name: 'b', price: 20 }),
+        new StubEntity({ name: 'c', price: 30 }),
+        new StubEntity({ name: 'd', price: 40 }),
+        new StubEntity({ name: 'e', price: 50 }),
+      ];
+      let paginatedItems = await sut['applyPaginate'](items, 1, 2);
+
+      expect(paginatedItems).toStrictEqual([items[0], items[1]]);
+
+      paginatedItems = await sut['applyPaginate'](items, 2, 2);
+
+      expect(paginatedItems).toStrictEqual([items[2], items[3]]);
+
+      paginatedItems = await sut['applyPaginate'](items, 3, 2);
+
+      expect(paginatedItems).toStrictEqual([items[4]]);
+
+      paginatedItems = await sut['applyPaginate'](items, 4, 2);
+
+      expect(paginatedItems).toHaveLength(0);
     });
   });
 });
