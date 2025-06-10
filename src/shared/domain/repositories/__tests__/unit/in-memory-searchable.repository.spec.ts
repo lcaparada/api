@@ -284,5 +284,49 @@ describe('InMemorySearchableRepository unit tests', () => {
         }),
       );
     });
+
+    it('should search using paginate, sort and filter', async () => {
+      const items = [
+        new StubEntity({ name: 'test', price: 10 }),
+        new StubEntity({ name: 'a', price: 20 }),
+        new StubEntity({ name: 'TEST', price: 30 }),
+        new StubEntity({ name: 'e', price: 40 }),
+        new StubEntity({ name: 'TeSt', price: 50 }),
+      ];
+
+      sut.items = items;
+
+      let params = await sut.search(
+        new SearchParams({ page: 1, perPage: 2, filter: 'TEST', sort: 'name' }),
+      );
+
+      expect(params).toStrictEqual(
+        new SearchResult({
+          items: [items[0], items[4]],
+          total: 3,
+          currentPage: 1,
+          sort: 'name',
+          filter: 'TEST',
+          perPage: 2,
+          sortDir: 'desc',
+        }),
+      );
+
+      params = await sut.search(
+        new SearchParams({ page: 2, perPage: 2, filter: 'TEST', sort: 'name' }),
+      );
+
+      expect(params).toStrictEqual(
+        new SearchResult({
+          items: [items[2]],
+          total: 3,
+          currentPage: 2,
+          sort: 'name',
+          filter: 'TEST',
+          perPage: 2,
+          sortDir: 'desc',
+        }),
+      );
+    });
   });
 });
