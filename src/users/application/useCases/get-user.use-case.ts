@@ -1,15 +1,11 @@
 import { UserRepository } from '../../domain/repositories/user.repository';
+import { UserOutputDto } from '../dtos/user-output.dto';
 
 export type GetUserUseCaseInput = {
   id: string;
 };
 
-export type GetUserUseCaseOutput = {
-  id: string;
-  name: string;
-  email: string;
-  createdAt: Date;
-};
+export type GetUserUseCaseOutput = UserOutputDto;
 
 export class GetUserUseCase {
   constructor(private userRepository: UserRepository) {}

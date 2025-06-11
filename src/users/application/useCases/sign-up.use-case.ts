@@ -1,6 +1,7 @@
 import { BCryptjsHashProvider } from '../../../users/infrastructure/providers/hashProvider/bcryptjs.hash-provider';
 import { UserEntity } from '../../domain/entities/user.entity';
 import { UserRepository } from '../../domain/repositories/user.repository';
+import { UserOutputDto } from '../dtos/user-output.dto';
 import { BadRequestError } from '../errors/bad-request.error';
 
 export type SignUpUseCaseInput = {
@@ -9,13 +10,7 @@ export type SignUpUseCaseInput = {
   password: string;
 };
 
-export type SignUpUseCaseOutput = {
-  id: string;
-  name: string;
-  email: string;
-  password: string;
-  createdAt: Date;
-};
+export type SignUpUseCaseOutput = UserOutputDto;
 
 export class SignUpUseCase {
   constructor(
