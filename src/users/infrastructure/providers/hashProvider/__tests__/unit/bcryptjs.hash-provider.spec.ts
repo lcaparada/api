@@ -1,6 +1,6 @@
 import { BCryptjsHashProvider } from '../../bcryptjs.hash-provider';
 
-describe('BCryptjsHashProvider', () => {
+describe('BCryptjsHashProvider unit test', () => {
   let sut: BCryptjsHashProvider;
   beforeEach(() => {
     sut = new BCryptjsHashProvider();
