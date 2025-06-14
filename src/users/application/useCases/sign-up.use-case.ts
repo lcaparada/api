@@ -3,6 +3,7 @@ import { UserEntity } from '../../domain/entities/user.entity';
 import { UserRepository } from '../../domain/repositories/user.repository';
 import { UserOutputDto } from '../dtos/user-output.dto';
 import { BadRequestError } from '../errors/bad-request.error';
+import { UseCase } from '../../../shared/application/useCases/use-case';
 
 export type SignUpUseCaseInput = {
   name: string;
@@ -12,7 +13,9 @@ export type SignUpUseCaseInput = {
 
 export type SignUpUseCaseOutput = UserOutputDto;
 
-export class SignUpUseCase {
+export class SignUpUseCase
+  implements UseCase<SignUpUseCaseInput, SignUpUseCaseOutput>
+{
   constructor(
     private userRepository: UserRepository,
     private hashProvider: BCryptjsHashProvider,
