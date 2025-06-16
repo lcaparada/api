@@ -1,7 +1,7 @@
 import { UserInMemoryRepository } from '../../../../../users/infrastructure/database/in-memory/repositories/user-in-memory.repository';
 import { SignUpUseCase } from '../../sign-up.use-case';
 import { BCryptjsHashProvider } from '../../../../../users/infrastructure/providers/hashProvider/bcryptjs.hash-provider';
-import { BadRequestError } from '../../../../../users/application/errors/bad-request.error';
+import { BadRequestError } from '../../../../../shared/application/errors/bad-request.error';
 import { userDataBuilder } from '../../../../../users/domain/testing/helpers/user-data-builder';
 import { ConflictError } from '../../../../../shared/domain/errors/conflict.error';
 

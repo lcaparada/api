@@ -2,7 +2,7 @@ import { BCryptjsHashProvider } from '../../../users/infrastructure/providers/ha
 import { UserEntity } from '../../domain/entities/user.entity';
 import { UserRepository } from '../../domain/repositories/user.repository';
 import { UserOutputDto } from '../dtos/user-output.dto';
-import { BadRequestError } from '../errors/bad-request.error';
+import { BadRequestError } from '../../../shared/application/errors/bad-request.error';
 import { UseCase } from '../../../shared/application/useCases/use-case';
 
 export type SignUpUseCaseInput = {
