@@ -1,6 +1,6 @@
 import { UseCase } from '../../../shared/application/useCases/use-case';
 import { UserRepository } from '../../domain/repositories/user.repository';
-import { UserOutputDto } from '../dtos/user-output.dto';
+import { UserOutputDto, UserOutputMapper } from '../dtos/user-output.dto';
 
 export type GetUserUseCaseInput = {
   id: string;
@@ -15,6 +15,6 @@ export class GetUserUseCase
 
   async execute(input: GetUserUseCaseInput): Promise<GetUserUseCaseOutput> {
     const entity = await this.userRepository.findById(input.id);
-    return entity.toJSON();
+    return UserOutputMapper.toOutput(entity);
   }
 }

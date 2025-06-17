@@ -1,7 +1,7 @@
 import { BCryptjsHashProvider } from '../../../users/infrastructure/providers/hashProvider/bcryptjs.hash-provider';
 import { UserEntity } from '../../domain/entities/user.entity';
 import { UserRepository } from '../../domain/repositories/user.repository';
-import { UserOutputDto } from '../dtos/user-output.dto';
+import { UserOutputDto, UserOutputMapper } from '../dtos/user-output.dto';
 import { BadRequestError } from '../../../shared/application/errors/bad-request.error';
 import { UseCase } from '../../../shared/application/useCases/use-case';
 
@@ -34,6 +34,6 @@ export class SignUpUseCase
     );
     const entity = new UserEntity({ ...input, password: encryptedPassword });
     await this.userRepository.insert(entity);
-    return entity.toJSON();
+    return UserOutputMapper.toOutput(entity);
   }
 }
