@@ -99,5 +99,22 @@ describe('ListUsersUseCase unit case', () => {
       perPage: 2,
     });
     expect(searchSpyOn).toHaveBeenCalledTimes(2);
+
+    result = await sut.execute({
+      filter: 'a',
+      sort: 'name',
+      sortDir: 'desc',
+      perPage: 3,
+      page: 1,
+    });
+
+    expect(result).toStrictEqual({
+      items: [items[0].toJSON(), items[1].toJSON(), items[2].toJSON()],
+      total: 3,
+      currentPage: 1,
+      lastPage: 1,
+      perPage: 3,
+    });
+    expect(searchSpyOn).toHaveBeenCalledTimes(3);
   });
 });
