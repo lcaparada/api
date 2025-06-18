@@ -24,8 +24,9 @@ export class SignInUseCase
     if (!input.email || !input.password) {
       throw new BadRequestError('Email and password is required.');
     }
+
     const entity = await this.userRepository.findByEmail(input.email);
-    const passwordMatches = this.hashProvider.compareHash(
+    const passwordMatches = await this.hashProvider.compareHash(
       input.password,
       entity.password,
     );
