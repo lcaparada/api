@@ -12,7 +12,7 @@ export type UpdatePasswordUseCaseInput = {
 
 export type UpdatePasswordUseCaseOutput = UserOutputDto;
 
-export class UpdateUserUseCase
+export class UpdatePasswordUseCase
   implements UseCase<UpdatePasswordUseCaseInput, UpdatePasswordUseCaseOutput>
 {
   constructor(
