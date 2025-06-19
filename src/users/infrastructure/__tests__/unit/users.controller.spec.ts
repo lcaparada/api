@@ -8,6 +8,9 @@ import { UpdateUserUseCaseOutput } from '../../../application/useCases/update-us
 import { UpdateUserDto } from '../../dtos/update-user.dto';
 import { UpdatePasswordUseCaseOutput } from '../../../application/useCases/update-password.use-case';
 import { UpdatePasswordDto } from '../../dtos/update-password.dto';
+import { GetUserUseCaseOutput } from '../../../application/useCases/get-user.use-case';
+import { ListUsersUseCaseOutput } from '../../../application/useCases/list-users.use-case';
+import { ListUsersDto } from '../../dtos/list-users.dto';
 
 describe('UsersController', () => {
   let sut: UsersController;
@@ -110,5 +113,40 @@ describe('UsersController', () => {
     const result = await sut.remove(id);
     expect(output).toStrictEqual(result);
     expect(mockDeleteUserUseCase.execute).toHaveBeenCalledWith({ id });
+  });
+
+  it('should get an user', async () => {
+    const output: GetUserUseCaseOutput = props;
+    const mockGetUserUseCase = {
+      execute: jest.fn().mockReturnValue(Promise.resolve(output)),
+    };
+    sut['getUserUseCase'] = mockGetUserUseCase as any;
+
+    const result = await sut.findOne(id);
+    expect(output).toStrictEqual(result);
+    expect(mockGetUserUseCase.execute).toHaveBeenCalledWith({ id });
+  });
+
+  it('should list users', async () => {
+    const output: ListUsersUseCaseOutput = {
+      items: [props],
+      currentPage: 1,
+      lastPage: 1,
+      perPage: 1,
+      total: 1,
+    };
+    const mockListUsersUseCase = {
+      execute: jest.fn().mockReturnValue(Promise.resolve(output)),
+    };
+
+    const input: ListUsersDto = {
+      page: 1,
+      perPage: 1,
+    };
+    sut['listUsersUseCase'] = mockListUsersUseCase as any;
+
+    const result = await sut.search(input);
+    expect(output).toStrictEqual(result);
+    expect(mockListUsersUseCase.execute).toHaveBeenCalledWith(input);
   });
 });
