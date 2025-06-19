@@ -48,7 +48,7 @@ export class UsersController {
   private listUsersUseCase: ListUsersUseCase;
 
   @Post()
-  async signUp(@Body() signUpDto: SignUpDto) {
+  async create(@Body() signUpDto: SignUpDto) {
     return await this.signUpUseCase.execute(signUpDto);
   }
 
