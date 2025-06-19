@@ -2,6 +2,8 @@ import { UsersController } from '../../users.controller';
 import { UserOutputDto } from '../../../application/dtos/user-output.dto';
 import { SignUpUseCaseOutput } from '../../../application/useCases/sign-up.use-case';
 import { SignUpDto } from '../../dtos/sign-up.dto';
+import { SignInUseCaseOutput } from '../../../application/useCases/sign-in.use-case';
+import { SignInDto } from '../../dtos/sign-in.dto';
 
 describe('UsersController', () => {
   let sut: UsersController;
@@ -39,5 +41,21 @@ describe('UsersController', () => {
     const result = await sut.create(input);
     expect(output).toMatchObject(result);
     expect(mockSignUpUseCase.execute).toHaveBeenCalledWith(input);
+  });
+
+  it('should login a user', async () => {
+    const output: SignInUseCaseOutput = props;
+    const mockSignInUseCase = {
+      execute: jest.fn().mockReturnValue(Promise.resolve(output)),
+    };
+    sut['signInUseCase'] = mockSignInUseCase as any;
+    const input: SignInDto = {
+      email: 'a@a.com',
+      password: '123',
+    };
+
+    const result = await sut.login(input);
+    expect(output).toMatchObject(result);
+    expect(mockSignInUseCase.execute).toHaveBeenCalledWith(input);
   });
 });
